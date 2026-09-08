@@ -9,7 +9,6 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.input.EventUpdateInput;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.manager.module.type.InteractionModule;
@@ -103,8 +102,7 @@ public final class AutoTunnelModule extends InteractionModule
 
         if (breakInfo != null)
         {
-            swapToBestBlockSlot(breakInfo.getPos());
-            if (Nebula.INTERACTIONS.breakBlock(breakInfo.getPos(), breakInfo.getFacing()))
+            if (breakBlock(breakInfo, true))
             {
                 walk = true;
                 if (backplaceSetting.getValue())
@@ -164,9 +162,8 @@ public final class AutoTunnelModule extends InteractionModule
             {
                 continue;
             }
-            swapToBestBlockSlot(pos);
             walk = false;
-            if (Nebula.INTERACTIONS.breakBlock(pos, info.getFacing()))
+            if (breakBlock(info, true))
             {
                 walk = true;
                 swapBack();
@@ -188,19 +185,6 @@ public final class AutoTunnelModule extends InteractionModule
             }
         }
     };
-
-    private void swapToBestBlockSlot(final BlockPos pos)
-    {
-        final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
-        if (slot != InventoryUtil.INVALID_SLOT)
-        {
-            if (prevSlot == InventoryUtil.INVALID_SLOT)
-            {
-                prevSlot = MC.thePlayer.inventory.currentItem;
-            }
-            Nebula.INVENTORY.select(slot);
-        }
-    }
 
     private void swapBack()
     {

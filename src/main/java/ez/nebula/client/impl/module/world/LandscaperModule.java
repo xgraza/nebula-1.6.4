@@ -5,13 +5,14 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.util.math.AngleUtil;
-import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import ez.nebula.client.util.math.MathUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import ez.nebula.client.util.render.world.QuadMask;
@@ -23,8 +24,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.stream.Collectors;
 
 /**
  * @author xgraza
@@ -33,10 +32,9 @@ import java.util.stream.Collectors;
 @ModuleManifest(name = "Landscaper",
         description = "Automatically breaks all foliage (i.e. grass, flowers, snow) blocks at your Y level",
         category = ModuleCategory.WORLD)
-public final class LandscaperModule extends Module
+@RotationPriority(10)
+public final class LandscaperModule extends InteractionModule
 {
-    private static final int LANDSCAPER_ROTATION_PRIORITY = 10;
-
     private final NumberSetting<Float> rangeSetting = numberBuilder("Range", 4.2f)
             .setMin(1.0f)
             .setMax(6.0f)
@@ -46,6 +44,13 @@ public final class LandscaperModule extends Module
     private final Setting<Boolean> rotateSetting = builder("Rotate", false)
             .setDescription("If to rotate to the block to break")
             .build();
+    private final NumberSetting<Integer> blocksPerTickSetting = numberBuilder("Blocks per Tick", 2)
+            .setMin(1)
+            .setMax(20)
+            .setScale(1)
+            .setDescription("How many blocks to break per tick")
+            .setVisibility((value) -> !rotateSetting.getValue())
+            .build();
     private final Setting<Boolean> snowSetting = builder("Shovel Snow", true)
             .setDescription("If to clear snow")
             .build();
@@ -53,7 +58,7 @@ public final class LandscaperModule extends Module
             .setDescription("If to destroy saplings")
             .build();
 
-    private final Queue<BlockPos> breakQueue = new ConcurrentLinkedQueue<>();
+    private final List<BlockPos> breakList = new ArrayList<>();
     private BlockPos breakingBlockPos;
     private float[] angles;
 
@@ -61,7 +66,7 @@ public final class LandscaperModule extends Module
     public void onDisable()
     {
         super.onDisable();
-        breakQueue.clear();
+        breakList.clear();
         breakingBlockPos = null;
         if (MC.thePlayer != null)
         {
@@ -91,41 +96,29 @@ public final class LandscaperModule extends Module
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
         populateBreakQueue();
-        if (breakQueue.isEmpty())
+        if (breakList.isEmpty())
         {
-            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             return;
         }
-        if (breakingBlockPos == null)
-        {
-            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-            Nebula.INVENTORY.sync();
-            breakingBlockPos = breakQueue.poll();
-            return;
-        }
+
         if (rotateSetting.getValue())
         {
-            if (angles == null)
+            if (breakingBlockPos == null && (breakingBlockPos = breakList.get(0)) == null)
+            {
+                Nebula.INVENTORY.sync();
+                return;
+            }
+            if (!rotate(angles))
             {
                 return;
             }
-            if (!Nebula.ROTATIONS.spoof(angles[0], angles[1], LANDSCAPER_ROTATION_PRIORITY))
+            if (breakBlock(breakingBlockPos, EnumFacing.UP, true))
             {
-                return;
+                breakingBlockPos = null;
             }
-        }
-        final Block block = MC.theWorld.getBlock(breakingBlockPos);
-        if (block instanceof BlockSnow || block instanceof BlockSnowBlock)
+        } else
         {
-            final int slot = InventoryUtil.getBestToolSlotFor(block);
-            if (slot != InventoryUtil.INVALID_SLOT)
-            {
-                Nebula.INVENTORY.spoof(slot);
-            }
-        }
-        if (Nebula.INTERACTIONS.breakBlock(breakingBlockPos, EnumFacing.UP))
-        {
-            breakingBlockPos = null;
+            breakMultiPos(blocksPerTickSetting.getValue(), true, breakList);
             Nebula.INVENTORY.sync();
         }
     };
@@ -153,20 +146,16 @@ public final class LandscaperModule extends Module
 
     private void populateBreakQueue()
     {
-        breakQueue.clear();
-        Set<BlockPos> breakPositionSet = new HashSet<>();
+        breakList.clear();
         final BlockPos origin = PlayerUtil.getOrigin();
         for (final BlockPos offset : BlockUtil.RADIAL_BLOCK_MAP.get(rangeSetting.getValue().intValue()))
         {
             final BlockPos pos = origin.add(offset);
-            if (isBlockValid(pos) && !breakQueue.contains(pos))
+            if (isBlockValid(pos) && !breakList.contains(pos))
             {
-                breakPositionSet.add(pos);
+                breakList.add(pos);
             }
         }
-        breakPositionSet = breakPositionSet.stream().sorted(Comparator.comparingDouble((x) ->
-                        MC.thePlayer.getDistance(x.getX(), x.getY(), x.getZ())))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        breakQueue.addAll(breakPositionSet);
+        breakList.sort(Comparator.comparingDouble(MathUtil::getDistanceFromPlayer));
     }
 }

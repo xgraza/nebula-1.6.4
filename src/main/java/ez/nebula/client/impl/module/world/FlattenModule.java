@@ -54,7 +54,7 @@ public final class FlattenModule extends InteractionModule
     private final Setting<Boolean> stopOnSneakSetting = builder("Stop on Sneak", false)
             .setDescription("If to stop placing blocks when sneaking")
             .build();
-    private final Setting<Boolean> roateSetting = builder("Rotate", false)
+    private final Setting<Boolean> rotateSetting = builder("Rotate", false)
             .setDescription("If to rotate towards the block you're placing")
             .build();
     private final Setting<Integer> blocksSetting = numberBuilder("Blocks", 4)
@@ -62,7 +62,7 @@ public final class FlattenModule extends InteractionModule
             .setMax(20)
             .setScale(1)
             .setDescription("How many blocks to place per tick")
-            .setVisibility((value) -> !roateSetting.getValue())
+            .setVisibility((value) -> !rotateSetting.getValue())
             .build();
     private final Setting<Integer> yOffsetSetting = numberBuilder("Y-Offset", 0)
             .setMin(0)
@@ -89,14 +89,6 @@ public final class FlattenModule extends InteractionModule
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-//        final int slot = InventoryUtil.getSlot(0, 9, (stack) -> ((BlockSetting)blockSetting).isBlock(stack));
-//        if (slot == InventoryUtil.INVALID_SLOT)
-//        {
-//            return;
-//        }
-//
-//        Nebula2.INVENTORY.setSlot(slot);
-
         final ItemStack heldStack = MC.thePlayer.getHeldItem();
         if (heldStack == null || !(heldStack.getItem() instanceof ItemBlock))
         {
@@ -116,28 +108,21 @@ public final class FlattenModule extends InteractionModule
             return;
         }
 
-        if (placeInfo == null)
+        if (rotateSetting.getValue())
         {
-            final BlockInfo info = BlockUtil.getPlacement(placementInfoList.get(0));
-            if (info == null)
+            if (placeInfo == null && (placeInfo = BlockUtil.getPlacement(placementInfoList.get(0))) == null)
             {
                 return;
             }
-            placeInfo = info;
-        }
-
-        if (roateSetting.getValue())
-        {
             if (rotate(angles) && place(placeInfo))
             {
                 placeInfo = null;
                 angles = null;
             }
-
-            return;
+        } else
+        {
+            placeMultiPos(blocksSetting.getValue(), -1, false, placementInfoList);
         }
-
-        placeMultiPos(blocksSetting.getValue(), -1, false, placementInfoList);
     };
 
     @Subscribe

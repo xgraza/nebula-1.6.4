@@ -6,9 +6,9 @@ import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.input.EventUpdateInput;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
@@ -43,7 +43,7 @@ import java.util.List;
 @ModuleManifest(name = "AutoHighway",
         description = "Automatically builds a walkable highway",
         category = ModuleCategory.WORLD)
-public final class AutoHighwayModule extends Module
+public final class AutoHighwayModule extends InteractionModule
 {
     private final BlockSetting blockSetting = blockBuilder("Block")
             .setBlock(Blocks.obsidian)
@@ -93,7 +93,6 @@ public final class AutoHighwayModule extends Module
             .build();
 
     private List<BlockPos> highwayPositionList;
-
     private BlockInfo breakInfo;
     private boolean walk;
 
@@ -200,30 +199,7 @@ public final class AutoHighwayModule extends Module
             return;
         }
 
-        int blocksPlaced = 0;
-        for (final BlockPos highwayPos : highwayPositionList)
-        {
-            if (!BlockUtil.isReplaceable(highwayPos))
-            {
-                continue;
-            }
-            final BlockInfo info = BlockUtil.getPlacement(highwayPos);
-            if (info != null)
-            {
-                Nebula.INVENTORY.spoof(slot);
-                if (Nebula.INTERACTIONS.rightClickBlock(info.getPos(), info.getFacing(), true))
-                {
-                    ++blocksPlaced;
-                }
-            }
-
-            if (blocksPlaced >= blocksPerTickSetting.getValue())
-            {
-                break;
-            }
-        }
-
-        if (blocksPlaced > 0)
+        if (placeMultiPos(blocksPerTickSetting.getValue(), slot, false, highwayPositionList) > 0)
         {
             walk = false;
             Nebula.INVENTORY.sync();
@@ -240,43 +216,15 @@ public final class AutoHighwayModule extends Module
             final BlockPos pos = breakInfo.getPos();
             if (!(MC.thePlayer.getDistance(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5)
                     > rangeSetting.getValue())
-                    && !BlockUtil.isReplaceable(pos))
+                    && !BlockUtil.isReplaceable(pos)
+                    && !breakBlock(breakInfo, true))
             {
-                swapToBestBlockSlot(pos);
-                if (!Nebula.INTERACTIONS.breakBlock(pos, breakInfo.getFacing()))
-                {
-                    return;
-                }
+                return;
             }
             MC.playerController.resetBlockRemoving();
             breakInfo = null;
         }
-
-        int i = 0;
-        while (i <= excavatePosList.size() - 1)
-        {
-            final BlockInfo info = excavatePosList.get(i);
-            swapToBestBlockSlot(info.getPos());
-            if (!Nebula.INTERACTIONS.breakBlock(info.getPos(), info.getFacing()))
-            {
-                breakInfo = info;
-                break;
-            }
-            ++i;
-            if (i + 1 > blocksPerTickSetting.getValue())
-            {
-                break;
-            }
-        }
-    }
-
-    private void swapToBestBlockSlot(final BlockPos pos)
-    {
-        final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
-        if (slot != InventoryUtil.INVALID_SLOT)
-        {
-            Nebula.INVENTORY.spoof(slot);
-        }
+        breakInfo = breakMultiInfo(blocksPerTickSetting.getValue(), true, excavatePosList);
     }
 
     private List<BlockInfo> getExcavatePositions(final List<BlockPos> highwayPosList)
@@ -286,7 +234,7 @@ public final class AutoHighwayModule extends Module
         for (final BlockPos highwayPos : highwayPosList)
         {
             Block block = MC.theWorld.getBlock(highwayPos);
-            if (((BlockSetting) blockSetting).getBlock() != block
+            if (blockSetting.getBlock() != block
                     && block.blockHardness != -1.0f
                     && !BlockUtil.isReplaceable(highwayPos)
                     && onlyBlockSetting.getValue())

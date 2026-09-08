@@ -1358,7 +1358,7 @@ public class Minecraft
 
     private void handleBlockBreak(boolean p_147115_1_)
     {
-        if (thePlayer == null || PlayerControllerMP.ALLOW_BREAK_OVERRIDE)
+        if (thePlayer == null /*|| PlayerControllerMP.ALLOW_BREAK_OVERRIDE*/)
         {
             return;
         }
@@ -1388,6 +1388,10 @@ public class Minecraft
                 }
             } else
             {
+                if (PlayerControllerMP.ALLOW_BREAK_OVERRIDE)
+                {
+                    return;
+                }
                 this.playerController.resetBlockRemoving();
             }
         }

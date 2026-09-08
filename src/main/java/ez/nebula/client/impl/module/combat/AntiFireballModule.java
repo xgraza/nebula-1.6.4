@@ -1,6 +1,5 @@
 package ez.nebula.client.impl.module.combat;
 
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventPostUpdate;
@@ -99,7 +98,7 @@ public final class AntiFireballModule extends InteractionModule
 
         for (final EntityLargeFireball fireballEntity : entityFireballTreeMap.values())
         {
-            Nebula.INTERACTIONS.swingItem();
+            swing();
             MC.playerController.attackEntity(MC.thePlayer, fireballEntity);
             if (!multiSetting.getValue())
             {
@@ -113,7 +112,7 @@ public final class AntiFireballModule extends InteractionModule
     {
         if (entity != null && angles != null)
         {
-            Nebula.INTERACTIONS.swingItem();
+            swing();
             MC.playerController.attackEntity(MC.thePlayer, entity);
             entity = null;
             angles = null;
@@ -123,13 +122,8 @@ public final class AntiFireballModule extends InteractionModule
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
-        if (entity != null)
+        if (entity != null && rotateSetting.getValue())
         {
-            if (!rotateSetting.getValue())
-            {
-                angles = null;
-                return;
-            }
             MC.mcProfiler.startSection("antiFireball_rotations");
             angles = AngleUtil.entityAngles(entity, entity.height / 2.0, event.getPartialTicks());
             MC.mcProfiler.endSection();

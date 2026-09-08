@@ -1,10 +1,12 @@
 package ez.nebula.client.api.manager.module.type;
 
 import ez.nebula.client.Nebula;
+import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.src.BlockPos;
@@ -75,6 +77,133 @@ public abstract class InteractionModule extends RotationModule
     {
         swing();
         MC.playerController.clickBlock(pos.getX(), pos.getY(), pos.getZ(), face.order_a);
+    }
+
+    protected boolean breakBlock(final BlockInfo info, final boolean autoSwap)
+    {
+        return breakBlock(info.getPos(), info.getFacing(), autoSwap);
+    }
+
+    /**
+     * Breaks a block
+     * @param pos the position
+     * @param face the hit face
+     * @param autoSwap if to automatically swap to the best available tool slot
+     * @return if the block was successfully broken
+     * @apiNote if this returns false and it swapped, it will not swap back to the original slot
+     */
+    protected boolean breakBlock(final BlockPos pos, final EnumFacing face, final boolean autoSwap)
+    {
+        int slot = -1;
+        if (autoSwap)
+        {
+            slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
+        }
+
+        if (slot != -1)
+        {
+            Nebula.INVENTORY.spoof(slot);
+        }
+        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
+        final boolean result = Nebula.INTERACTIONS.breakBlock(pos, face);
+        if (slot != -1 && result)
+        {
+            Nebula.INVENTORY.sync();
+        }
+        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+        return result;
+    }
+
+    protected BlockInfo breakMultiInfo(final int maxBlocks, final boolean autoSwap, final List<BlockInfo> infoList)
+    {
+        if (infoList.isEmpty())
+        {
+            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+            return null;
+        }
+        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
+        int broken = 0;
+        for (final BlockInfo info : infoList)
+        {
+            if (broken >= maxBlocks)
+            {
+                PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+                return null;
+            }
+            int slot = -1;
+            if (autoSwap)
+            {
+                slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(info.getPos()));
+                if (slot != -1)
+                {
+                    Nebula.INVENTORY.spoof(slot);
+                }
+            }
+
+            if (Nebula.INTERACTIONS.breakBlock(info.getPos(), info.getFacing()))
+            {
+                ++broken;
+                if (slot != -1)
+                {
+                    Nebula.INVENTORY.sync();
+                }
+            } else
+            {
+                PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+                return info;
+            }
+        }
+        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+        return null;
+    }
+
+    protected BlockInfo breakMultiPos(final int maxBlocks, final boolean autoSwap, final List<BlockPos> positions)
+    {
+        if (positions.isEmpty())
+        {
+            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+            return null;
+        }
+        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
+        int broken = 0;
+        for (final BlockPos pos : positions)
+        {
+            if (broken >= maxBlocks)
+            {
+                PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+                return null;
+            }
+            final EnumFacing face = AngleUtil.getVisibleFace(pos, 6.0);
+            if (face == null)
+            {
+                continue;
+            }
+
+            int slot = -1;
+            if (autoSwap)
+            {
+                slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
+                if (slot != -1)
+                {
+                    Nebula.INVENTORY.spoof(slot);
+                }
+            }
+
+            if (Nebula.INTERACTIONS.breakBlock(pos, face))
+            {
+                ++broken;
+                if (slot != -1)
+                {
+                    Nebula.INVENTORY.sync();
+                }
+            } else
+            {
+                PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+                return new BlockInfo(pos, face);
+            }
+        }
+        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+        return null;
     }
 
     /**

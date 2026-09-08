@@ -102,7 +102,7 @@ public final class NukerModule extends Module
             final AxisAlignedBB bb = new AxisAlignedBB(info.getPos());
             final int faceMask = QuadMask.mask(info.getFacing());
             Render3D.filledAABB(bb, faceMask, 0x80FF0000);
-            Render3D.outlinedAABB(bb, 1.5f, faceMask, 0xFFFFFFFF);
+            Render3D.outlinedAABB(bb, 1.5f, faceMask, 0xFFFF0000);
         }
     };
 
