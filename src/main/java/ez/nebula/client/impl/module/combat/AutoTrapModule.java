@@ -190,8 +190,7 @@ public final class AutoTrapModule extends InteractionModule
             for (final EnumFacing facing : EnumFacing.values())
             {
                 final BlockPos neighbor = collidingPos.offset(facing);
-                if (MathUtil.getDistanceFromPlayer(
-                        neighbor.getX() + 0.5, neighbor.getY() + 0.5, neighbor.getZ() + 0.5) > rangeSetting.getValue())
+                if (MathUtil.getDistanceFromPlayer(neighbor, true) > rangeSetting.getValue())
                 {
                     continue;
                 }
