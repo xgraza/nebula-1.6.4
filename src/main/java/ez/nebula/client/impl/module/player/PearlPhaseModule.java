@@ -8,6 +8,7 @@ import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
 import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
@@ -23,7 +24,7 @@ import net.minecraft.util.MathHelper;
 @ModuleManifest(name = "PearlPhase",
         description = "Phases into a block using pearls",
         category = ModuleCategory.PLAYER)
-@RotationPriority(100)
+@RotationPriority(ModuleRotationPriorities.PEARL_PHASE)
 public final class PearlPhaseModule extends InteractionModule
 {
     private static final float PITCH = 87.0f;

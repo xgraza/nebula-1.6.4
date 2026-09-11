@@ -12,6 +12,7 @@ import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.util.math.AngleUtil;
 import io.netty.util.internal.ConcurrentSet;
 import net.minecraft.entity.Entity;
@@ -28,7 +29,7 @@ import java.util.TreeMap;
 @ModuleManifest(name = "AntiFireball",
         description = "Automatically hits away fireballs",
         category = ModuleCategory.COMBAT)
-@RotationPriority(20)
+@RotationPriority(ModuleRotationPriorities.ANTI_FIREBALL)
 public final class AntiFireballModule extends InteractionModule
 {
     private static final int FIREBALL_TYPE = 63;

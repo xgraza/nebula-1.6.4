@@ -22,6 +22,7 @@ import ez.nebula.client.api.setting.BindSetting;
 import ez.nebula.client.api.setting.ColorSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.impl.module.render.HUDModule;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.math.Timer;
@@ -48,7 +49,7 @@ import org.lwjgl.input.Keyboard;
 @ModuleManifest(name = "Scaffold",
         description = "Automatically places blocks under you to give the appearance of flying",
         category = ModuleCategory.WORLD)
-@RotationPriority(50)
+@RotationPriority(ModuleRotationPriorities.SCAFFOLD)
 public final class ScaffoldModule extends InteractionModule
 {
     @ModuleInstance

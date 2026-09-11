@@ -13,6 +13,7 @@ import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
@@ -33,7 +34,7 @@ import net.minecraft.util.EnumFacing;
 @ModuleManifest(name = "AutoLavaHoleFill",
         description = "Automatically fills the 1x1 pockets of lava in the nether around you",
         category = ModuleCategory.WORLD)
-@RotationPriority(50)
+@RotationPriority(ModuleRotationPriorities.AUTO_LAVA_FILL)
 public final class AutoLavaHoleFillModule extends InteractionModule
 {
     @ModuleInstance

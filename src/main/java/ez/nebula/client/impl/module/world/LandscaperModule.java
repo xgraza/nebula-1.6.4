@@ -11,6 +11,7 @@ import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.math.MathUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
@@ -32,7 +33,7 @@ import java.util.*;
 @ModuleManifest(name = "Landscaper",
         description = "Automatically breaks all foliage (i.e. grass, flowers, snow) blocks at your Y level",
         category = ModuleCategory.WORLD)
-@RotationPriority(10)
+@RotationPriority(ModuleRotationPriorities.LANDSCAPER)
 public final class LandscaperModule extends InteractionModule
 {
     private final NumberSetting<Float> rangeSetting = numberBuilder("Range", 4.2f)

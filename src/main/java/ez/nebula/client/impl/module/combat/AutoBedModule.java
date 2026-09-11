@@ -13,6 +13,7 @@ import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.impl.module.render.NameProtectModule;
@@ -47,7 +48,7 @@ import java.util.Queue;
 @ModuleManifest(name = "AutoBed",
         description = "Automatically places and breaks beds to damage another player",
         category = ModuleCategory.COMBAT)
-@RotationPriority(150)
+@RotationPriority(ModuleRotationPriorities.AUTO_BED)
 public final class AutoBedModule extends InteractionModule
 {
     @ModuleInstance

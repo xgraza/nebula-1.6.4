@@ -13,6 +13,7 @@ import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.api.setting.block.BlockSetting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.math.MathUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
@@ -34,7 +35,7 @@ import java.util.List;
 @ModuleManifest(name = "Flatten",
         description = "Places the currently held block in a radial pattern to flatten the area around you",
         category = ModuleCategory.WORLD)
-@RotationPriority(60)
+@RotationPriority(ModuleRotationPriorities.FLATTEN)
 public final class FlattenModule extends InteractionModule
 {
     private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)

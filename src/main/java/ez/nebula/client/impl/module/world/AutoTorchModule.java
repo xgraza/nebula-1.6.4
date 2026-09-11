@@ -12,6 +12,7 @@ import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.util.math.AngleUtil;
@@ -35,7 +36,7 @@ import net.minecraft.world.chunk.Chunk;
 @ModuleManifest(name = "AutoTorch",
         description = "Automatically places torches to prevent mob spawns",
         category = ModuleCategory.WORLD)
-@RotationPriority(10)
+@RotationPriority(ModuleRotationPriorities.AUTO_TORCH)
 public final class AutoTorchModule extends InteractionModule
 {
     @ModuleInstance

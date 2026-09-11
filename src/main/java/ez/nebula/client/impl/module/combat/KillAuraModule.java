@@ -14,6 +14,7 @@ import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.impl.module.player.FreecamModule;
 import ez.nebula.client.util.math.AngleUtil;
@@ -51,7 +52,7 @@ import static org.lwjgl.opengl.GL11.*;
 @ModuleManifest(name = "KillAura",
         description = "Automatically attacks entities around you",
         category = ModuleCategory.COMBAT)
-@RotationPriority(140)
+@RotationPriority(ModuleRotationPriorities.KILL_AURA)
 public final class KillAuraModule extends RotationModule
 {
     @ModuleInstance
