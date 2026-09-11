@@ -56,6 +56,15 @@ public final class MathUtil
         return Math.sqrt(getDistanceFromPlayerSq(pos));
     }
 
+    public static double getDistanceFromPlayer(final BlockPos pos, final boolean offset)
+    {
+        if (offset)
+        {
+            return getDistanceFromPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+        }
+        return getDistanceFromPlayer(pos);
+    }
+
     public static double getDistanceFromPlayer(final double x, final double y, final double z)
     {
         double dX = MC.thePlayer.posX - x;

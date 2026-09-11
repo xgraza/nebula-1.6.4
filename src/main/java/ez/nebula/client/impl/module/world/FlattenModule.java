@@ -16,6 +16,7 @@ import ez.nebula.client.api.setting.block.BlockSetting;
 import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.math.MathUtil;
+import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
@@ -122,7 +123,7 @@ public final class FlattenModule extends InteractionModule
             }
         } else
         {
-            placeMultiPos(blocksSetting.getValue(), -1, false, placementInfoList);
+            placeMultiPos(blocksSetting.getValue(), InventoryUtil.INVALID_SLOT, false, placementInfoList);
         }
     };
 
@@ -149,8 +150,7 @@ public final class FlattenModule extends InteractionModule
                 continue;
             }
             final BlockPos pos = origin.add(offset.getX(), -(1 + yOffsetSetting.getValue()), offset.getZ());
-            if (radialSetting.getValue() && MathUtil.getDistanceFromPlayer(
-                    pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) > rangeSetting.getValue())
+            if (radialSetting.getValue() && MathUtil.getDistanceFromPlayer(pos, true) > rangeSetting.getValue())
             {
                 continue;
             }

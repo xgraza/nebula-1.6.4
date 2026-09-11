@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventBus;
+import ez.nebula.client.api.listener.event.player.EventAttackSprint;
 import ez.nebula.client.api.listener.event.player.EventItemUseFinish;
 import ez.nebula.client.api.listener.event.player.EventJump;
 import ez.nebula.client.impl.module.player.AntiRevertModule;
@@ -1299,9 +1300,13 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                         if (var3 > 0)
                         {
                             par1Entity.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) var3 * 0.5F, 0.1D, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) var3 * 0.5F);
-                            this.motionX *= 0.6D;
-                            this.motionZ *= 0.6D;
-                            this.setSprinting(false);
+
+                            if (!EventBus.dispatch(new EventAttackSprint(par1Entity)))
+                            {
+                                this.motionX *= 0.6D;
+                                this.motionZ *= 0.6D;
+                                this.setSprinting(false);
+                            }
                         }
 
                         if (var5)

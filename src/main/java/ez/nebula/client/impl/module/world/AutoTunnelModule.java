@@ -4,7 +4,6 @@
 
 package ez.nebula.client.impl.module.world;
 
-import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -17,7 +16,6 @@ import ez.nebula.client.api.setting.Setting;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.player.AutoEatModule;
-import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
@@ -61,21 +59,15 @@ public final class AutoTunnelModule extends InteractionModule
             .build();
 
     private final Set<BlockPos> replaceQueue = new ConcurrentSet<>();
-    private BlockInfo breakInfo;
-    private int prevSlot = InventoryUtil.INVALID_SLOT;
+    private BlockPos breakPos;
     private boolean walk;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        if (prevSlot != -1)
-        {
-            Nebula.INVENTORY.select(prevSlot);
-        }
-        prevSlot = InventoryUtil.INVALID_SLOT;
         replaceQueue.clear();
-        breakInfo = null;
+        breakPos = null;
         walk = false;
     }
 
@@ -100,17 +92,16 @@ public final class AutoTunnelModule extends InteractionModule
 
         walk = true;
 
-        if (breakInfo != null)
+        if (breakPos != null)
         {
-            if (breakBlock(breakInfo, true))
+            if (breakBlock(breakPos, true))
             {
-                walk = true;
                 if (backplaceSetting.getValue())
                 {
-                    replaceQueue.add(breakInfo.getPos());
+                    replaceQueue.add(breakPos);
                 }
-                breakInfo = null;
-                swapBack();
+                walk = true;
+                breakPos = null;
             }
             walk = false;
             return;
@@ -157,16 +148,9 @@ public final class AutoTunnelModule extends InteractionModule
         int blocks = 0;
         for (final BlockPos pos : tunnelBlockList)
         {
-            final BlockInfo info = getBreakInfo(pos);
-            if (info == null)
-            {
-                continue;
-            }
-            walk = false;
-            if (breakBlock(info, true))
+            if (breakBlock(pos, true))
             {
                 walk = true;
-                swapBack();
                 ++blocks;
                 if (backplaceSetting.getValue())
                 {
@@ -180,30 +164,11 @@ public final class AutoTunnelModule extends InteractionModule
             {
                 walk = false;
                 // me must continue to break on the next tick
-                breakInfo = info;
+                breakPos = pos;
                 return;
             }
         }
     };
-
-    private void swapBack()
-    {
-        if (prevSlot != InventoryUtil.INVALID_SLOT && MC.thePlayer != null)
-        {
-            Nebula.INVENTORY.select(prevSlot);
-        }
-        prevSlot = InventoryUtil.INVALID_SLOT;
-    }
-
-    private BlockInfo getBreakInfo(final BlockPos pos)
-    {
-        final EnumFacing face = AngleUtil.getVisibleFace(pos, 6.0);
-        if (face == null)
-        {
-            return null;
-        }
-        return new BlockInfo(pos, face);
-    }
 
     private List<BlockPos> getTunnelBlockList()
     {

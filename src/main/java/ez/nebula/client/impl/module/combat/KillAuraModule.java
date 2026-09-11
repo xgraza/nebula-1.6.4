@@ -5,11 +5,12 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventPostUpdate;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
+import ez.nebula.client.api.listener.event.player.EventAttackSprint;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleInstance;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
-import ez.nebula.client.api.manager.module.type.RotationModule;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.EnumSetting;
 import ez.nebula.client.api.setting.NumberSetting;
@@ -37,7 +38,6 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 
 import java.util.Comparator;
@@ -53,7 +53,7 @@ import static org.lwjgl.opengl.GL11.*;
         description = "Automatically attacks entities around you",
         category = ModuleCategory.COMBAT)
 @RotationPriority(ModuleRotationPriorities.KILL_AURA)
-public final class KillAuraModule extends RotationModule
+public final class KillAuraModule extends InteractionModule
 {
     @ModuleInstance
     public static KillAuraModule INSTANCE;
@@ -253,6 +253,15 @@ public final class KillAuraModule extends RotationModule
         MC.mcProfiler.endSection();
     };
 
+    @Subscribe
+    private final EventListener<EventAttackSprint> attackSprintEventListener = event ->
+    {
+        if (keepSprint.getValue())
+        {
+            event.cancel();
+        }
+    };
+
     private void attackTarget()
     {
         Entity attackEntity = target;
@@ -279,14 +288,7 @@ public final class KillAuraModule extends RotationModule
             attackEntity = attackPart;
         }
 
-        MC.thePlayer.swingItem();
-        if (keepSprint.getValue())
-        {
-            PacketUtil.send(new C02PacketUseEntity(attackEntity, C02PacketUseEntity.Action.ATTACK));
-        } else
-        {
-            MC.playerController.attackEntity(MC.thePlayer, attackEntity);
-        }
+        attack(attackEntity, false);
     }
 
     private boolean canAttack()

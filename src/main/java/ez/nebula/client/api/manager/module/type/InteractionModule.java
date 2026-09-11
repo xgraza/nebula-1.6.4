@@ -7,7 +7,9 @@ import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -69,6 +71,45 @@ public abstract class InteractionModule extends RotationModule
     }
 
     /**
+     * Interacts with an entity with an item
+     * @param entity the entity to interact with
+     * @param slot the slot for the item
+     */
+    protected void interact(final Entity entity, final int slot)
+    {
+        if (slot != InventoryUtil.INVALID_SLOT)
+        {
+            Nebula.INVENTORY.spoof(slot);
+        }
+        interact(entity);
+        if (slot != InventoryUtil.INVALID_SLOT)
+        {
+            Nebula.INVENTORY.sync();
+        }
+    }
+
+    /**
+     * Interacts with an entity (equivalent to right-clicking an entity)
+     * @param entity the entity to interact with
+     */
+    protected void interact(final Entity entity)
+    {
+        PacketUtil.send(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.INTERACT));
+    }
+
+    protected void attack(final Entity entity, final boolean packet)
+    {
+        swing();
+        if (packet)
+        {
+            PacketUtil.send(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));
+        } else
+        {
+            MC.playerController.attackEntity(MC.thePlayer, entity);
+        }
+    }
+
+    /**
      * Clicks a block once
      * @param pos the position
      * @param face the hit face
@@ -77,6 +118,16 @@ public abstract class InteractionModule extends RotationModule
     {
         swing();
         MC.playerController.clickBlock(pos.getX(), pos.getY(), pos.getZ(), face.order_a);
+    }
+
+    protected boolean breakBlock(final BlockPos pos, final boolean autoSwap)
+    {
+        final EnumFacing face = AngleUtil.getVisibleFace(pos, 6.0);
+        if (face == null)
+        {
+            return false;
+        }
+        return breakBlock(pos, face, autoSwap);
     }
 
     protected boolean breakBlock(final BlockInfo info, final boolean autoSwap)

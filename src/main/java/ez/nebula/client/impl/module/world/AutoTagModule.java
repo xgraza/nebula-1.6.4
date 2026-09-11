@@ -5,19 +5,19 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.util.math.AngleUtil;
-import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.EntityUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemNameTag;
-import net.minecraft.network.play.client.C02PacketUseEntity;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -30,10 +30,9 @@ import java.util.Set;
 @ModuleManifest(name = "AutoTag",
         description = "Automatically nametags entities around you",
         category = ModuleCategory.WORLD)
-public final class AutoTagModule extends Module
+@RotationPriority(ModuleRotationPriorities.AUTO_TAG)
+public final class AutoTagModule extends InteractionModule
 {
-    private static final int AUTO_TAG_ROTATION_PRIORITY = 10;
-
     private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
@@ -89,21 +88,12 @@ public final class AutoTagModule extends Module
             return;
         }
 
-        if (rotateSetting.getValue())
+        if (rotateSetting.getValue() && !rotate(angles))
         {
-            if (angles == null)
-            {
-                return;
-            }
-            if (!Nebula.ROTATIONS.spoof(angles[0], angles[1], AUTO_TAG_ROTATION_PRIORITY))
-            {
-                return;
-            }
+            return;
         }
         taggedEntityIdSet.add(target.getEntityId());
-        Nebula.INVENTORY.spoof(nametagSlot);
-        PacketUtil.send(new C02PacketUseEntity(target, C02PacketUseEntity.Action.INTERACT));
-        Nebula.INVENTORY.sync();
+        interact(target, nametagSlot);
     };
 
     @Subscribe
@@ -111,7 +101,9 @@ public final class AutoTagModule extends Module
     {
         if (rotateSetting.getValue() && target != null)
         {
+            MC.mcProfiler.startSection("autoTag");
             angles = AngleUtil.entityAngles(target, target.height / 2.0, event.getPartialTicks());
+            MC.mcProfiler.endSection();
         }
     };
 

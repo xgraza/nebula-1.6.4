@@ -99,8 +99,7 @@ public final class AntiFireballModule extends InteractionModule
 
         for (final EntityLargeFireball fireballEntity : entityFireballTreeMap.values())
         {
-            swing();
-            MC.playerController.attackEntity(MC.thePlayer, fireballEntity);
+            attack(fireballEntity, true);
             if (!multiSetting.getValue())
             {
                 return;
@@ -113,8 +112,7 @@ public final class AntiFireballModule extends InteractionModule
     {
         if (entity != null && angles != null)
         {
-            swing();
-            MC.playerController.attackEntity(MC.thePlayer, entity);
+            attack(entity, true);
             entity = null;
             angles = null;
         }

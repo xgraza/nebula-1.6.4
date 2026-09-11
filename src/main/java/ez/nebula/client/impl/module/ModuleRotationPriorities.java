@@ -15,6 +15,8 @@ public interface ModuleRotationPriorities
     int SCAFFOLD = 70;
     int ANTI_FIREBALL = 60;
     int AUTO_LAVA_FILL = 50;
-    int AUTO_TORCH = 40;
-    int LANDSCAPER = 30;
+    int NUKER = 40;
+    int AUTO_TORCH = 30;
+    int LANDSCAPER = 20;
+    int AUTO_TAG = 10;
 }

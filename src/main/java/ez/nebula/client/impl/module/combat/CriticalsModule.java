@@ -19,7 +19,6 @@ import ez.nebula.client.impl.module.movement.SpeedModule;
 import ez.nebula.client.impl.module.world.FakePlayerModule;
 import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
-import ez.nebula.client.util.minecraft.player.ChatUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.text.FormattingUtil;
 import net.minecraft.entity.Entity;

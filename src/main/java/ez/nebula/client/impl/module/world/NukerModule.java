@@ -5,17 +5,17 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.render.EventRender3D;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.InteractionModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.impl.module.combat.AutoBedModule;
 import ez.nebula.client.impl.module.combat.KillAuraModule;
 import ez.nebula.client.impl.module.render.HUDModule;
-import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.math.MathUtil;
-import ez.nebula.client.util.minecraft.player.InventoryUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import ez.nebula.client.util.minecraft.world.BlockInfo;
 import ez.nebula.client.util.minecraft.world.BlockUtil;
@@ -26,7 +26,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.src.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumFacing;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -39,10 +38,9 @@ import java.util.List;
 @ModuleManifest(name = "Nuker",
         description = "Automatically breaks blocks around you to clear an area",
         category = ModuleCategory.WORLD)
-public final class NukerModule extends Module
+@RotationPriority(ModuleRotationPriorities.NUKER)
+public final class NukerModule extends InteractionModule
 {
-    private static final int NUKER_ROTATION_PRIORITY = 80;
-
     private final NumberSetting<Double> rangeSetting = numberBuilder("Range", 4.5)
             .setMin(1.0)
             .setMax(6.0)
@@ -62,7 +60,7 @@ public final class NukerModule extends Module
             .setDescription("If to keep your y position for what blocks to break")
             .build();
 
-    private List<BlockPos> breakList;
+    private final List<BlockPos> breakList = new ArrayList<>();
     private BlockInfo info;
     private double posY = -1;
 
@@ -70,12 +68,12 @@ public final class NukerModule extends Module
     public void onDisable()
     {
         super.onDisable();
-        info = null;
-        breakList = null;
-        if (MC.thePlayer != null)
+        if (info != null && MC.thePlayer != null)
         {
             Nebula.INVENTORY.sync();
         }
+        info = null;
+        breakList.clear();
         posY = -1;
         PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
     }
@@ -83,10 +81,7 @@ public final class NukerModule extends Module
     @Subscribe
     private final EventListener<EventRender3D> render3DEventListener = event ->
     {
-        if (breakList == null || breakList.isEmpty())
-        {
-            return;
-        }
+        MC.mcProfiler.startSection("nuker");
         for (final BlockPos pos : breakList)
         {
             if (info != null && info.getPos().equals(pos))
@@ -104,6 +99,7 @@ public final class NukerModule extends Module
             Render3D.filledAABB(bb, faceMask, 0x80FF0000);
             Render3D.outlinedAABB(bb, 1.5f, faceMask, 0xFFFF0000);
         }
+        MC.mcProfiler.endSection();
     };
 
     @Subscribe
@@ -121,26 +117,22 @@ public final class NukerModule extends Module
 
         if (info != null)
         {
-            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
-
-            if (MathUtil.getDistanceFromPlayer(info.getPos().getX() + 0.5, info.getPos().getY() + 0.5, info.getPos().getZ() + 0.5) > rangeSetting.getValue())
+            if (MathUtil.getDistanceFromPlayer(info.getPos(), true) > rangeSetting.getValue())
             {
                 Nebula.INVENTORY.sync();
                 info = null;
-            } else
-            {
-                swapToBestBlockSlot(info.getPos());
-                if (!Nebula.INTERACTIONS.breakBlock(info.getPos(), info.getFacing()))
-                {
-                    return;
-                }
-                info = null;
-                Nebula.INVENTORY.sync();
-                PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
             }
+
+            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
+            if (info != null && !breakBlock(info, true))
+            {
+                return;
+            }
+            PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
+            info = null;
         }
 
-        breakList = getBreakList();
+        calculateBreakPositions();
         if (breakList.isEmpty())
         {
             PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
@@ -148,45 +140,13 @@ public final class NukerModule extends Module
             info = null;
             return;
         }
-        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = true;
-        int blocks = 0;
-        for (final BlockPos pos : breakList)
-        {
-            EnumFacing face = AngleUtil.getVisibleFace(pos, 6.0);
-            if (face == null)
-            {
-                face = EnumFacing.UP;
-            }
-            swapToBestBlockSlot(pos);
-            if (Nebula.INTERACTIONS.breakBlock(pos, face))
-            {
-                ++blocks;
-            } else
-            {
-                info = new BlockInfo(pos, face);
-                break;
-            }
-            if (blocks >= blocksSetting.getValue())
-            {
-                break;
-            }
-        }
-        PlayerControllerMP.ALLOW_BREAK_OVERRIDE = false;
-        Nebula.INVENTORY.sync();
+
+        info = breakMultiPos(blocksSetting.getValue(), true, breakList);
     };
 
-    private void swapToBestBlockSlot(final BlockPos pos)
+    private void calculateBreakPositions()
     {
-        final int slot = InventoryUtil.getBestToolSlotFor(MC.theWorld.getBlock(pos));
-        if (slot != InventoryUtil.INVALID_SLOT)
-        {
-            Nebula.INVENTORY.spoof(slot);
-        }
-    }
-
-    private List<BlockPos> getBreakList()
-    {
-        final List<BlockPos> breakList = new ArrayList<>();
+        breakList.clear();
 
         if (!keepYSetting.getValue() || posY == -1)
         {
@@ -201,7 +161,7 @@ public final class NukerModule extends Module
                 continue;
             }
             final BlockPos pos = origin.add(offset);
-            if (MathUtil.getDistanceFromPlayer(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) > rangeSetting.getValue())
+            if (MathUtil.getDistanceFromPlayer(pos, true) > rangeSetting.getValue())
             {
                 continue;
             }
@@ -219,6 +179,5 @@ public final class NukerModule extends Module
         {
             breakList.sort(Comparator.comparingDouble(MathUtil::getDistanceFromPlayer));
         }
-        return breakList;
     }
 }

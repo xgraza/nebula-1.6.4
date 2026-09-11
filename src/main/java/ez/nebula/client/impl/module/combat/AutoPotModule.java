@@ -33,7 +33,9 @@ import java.util.List;
  * @author xgraza
  * @since 9/10/26
  */
-@ModuleManifest(name = "AutoPot2", description = "Autopot rewrite", category = ModuleCategory.COMBAT)
+@ModuleManifest(name = "AutoPot",
+        description = "Automatically throws potions",
+        category = ModuleCategory.COMBAT)
 @RotationPriority(ModuleRotationPriorities.AUTO_POT)
 public final class AutoPotModule extends InteractionModule
 {
@@ -77,7 +79,7 @@ public final class AutoPotModule extends InteractionModule
 
     private final Timer timer = new Timer();
     private final List<Integer> expectedPotionEffects = new ArrayList<>();
-    private int thrownPot;
+    private int thrownPot = InventoryUtil.INVALID_SLOT;
     private boolean thrown;
 
     @Override
