@@ -19,4 +19,5 @@ public interface ModuleRotationPriorities
     int AUTO_TORCH = 30;
     int LANDSCAPER = 20;
     int AUTO_TAG = 10;
+    int IGNITE = 5;
 }

@@ -206,7 +206,7 @@ public abstract class Entity
      * The amount of ticks you have to stand inside of fire before be set on fire
      */
     public int fireResistance;
-    private int fire;
+    public int fire;
 
     /**
      * Whether this entity is currently inside of water (if it handles water movement that is)
