@@ -170,7 +170,8 @@ public final class AutoTrapModule extends InteractionModule
                         && !player.isDead
                         && player.getHealth() > 0.0f
                         && player.getEntityId() != FreecamModule.CAMERA_ENTITY_ID
-                        && player.getDistanceToEntity(MC.thePlayer) <= rangeSetting.getValue())
+                        && player.getDistanceToEntity(MC.thePlayer) <= rangeSetting.getValue()
+                        && (NoFriendsModule.INSTANCE.isToggled() || !Nebula.FRIENDS.has(player)))
                 .min(Comparator.comparingDouble((player) -> MC.thePlayer.getDistanceToEntity(player)))
                 .orElse(null);
     }
