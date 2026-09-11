@@ -6,6 +6,7 @@ package ez.nebula.client.impl.module;
  */
 public interface ModuleRotationPriorities
 {
+    int BURROW = 200;
     int AUTO_BED = 150;
     int KILL_AURA = 140;
     int AUTO_POT = 120;

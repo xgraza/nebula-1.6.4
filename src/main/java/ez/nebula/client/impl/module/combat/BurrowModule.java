@@ -5,10 +5,12 @@ import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
 import ez.nebula.client.api.listener.event.network.EventPacket;
-import ez.nebula.client.api.manager.module.Module;
 import ez.nebula.client.api.manager.module.trait.ModuleCategory;
 import ez.nebula.client.api.manager.module.trait.ModuleManifest;
+import ez.nebula.client.api.manager.module.type.RotationModule;
+import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.util.math.AngleUtil;
 import ez.nebula.client.util.minecraft.network.PacketUtil;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
@@ -32,9 +34,9 @@ import net.minecraft.util.Vec3;
 @ModuleManifest(name = "Burrow",
         description = "Places a blast resistant block at your feet to prevent explosion damage",
         category = ModuleCategory.COMBAT)
-public final class BurrowModule extends Module
+@RotationPriority(ModuleRotationPriorities.BURROW)
+public final class BurrowModule extends RotationModule
 {
-    private static final int BURROW_ROTATION_PRIORITY = 300;
     private static final Block[] VALID_BURROW_BLOCKS = { Blocks.obsidian, Blocks.anvil, Blocks.ender_chest };
 
     private final Setting<Boolean> instantSetting = builder("Instant", false)
@@ -108,7 +110,7 @@ public final class BurrowModule extends Module
 
         if (rotateSetting.getValue())
         {
-            if (!Nebula.ROTATIONS.canTakePrecedent(BURROW_ROTATION_PRIORITY))
+            if (!canRotate())
             {
                 return;
             }
