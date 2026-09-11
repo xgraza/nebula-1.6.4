@@ -4,6 +4,7 @@ import ez.nebula.client.api.listener.EventBus;
 import ez.nebula.client.api.listener.EventListener;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.network.EventPacket;
+import ez.nebula.client.api.listener.event.player.EventMove;
 import ez.nebula.client.api.listener.event.player.EventMoveUpdate;
 import ez.nebula.client.api.listener.event.world.EventChangeWorld;
 import ez.nebula.client.api.manager.IManager;
@@ -47,23 +48,11 @@ public final class RotationManager implements IManager
 
         if (polledRot != null)
         {
+            didPushQueued = polledRot.priority >= spoofPrority && isRotationValid(polledRot.yaw, polledRot.pitch);
             if (didPushQueued)
             {
-                didPushQueued = false;
-                // if the C03 was sent and our server angles actually reflect these requested angles
-                if (polledRot.yaw == serverAngles[0] && polledRot.pitch == serverAngles[1])
-                {
-                    polledRot.invoke();
-                    polledRot = null;
-                }
-            } else
-            {
-                didPushQueued = polledRot.priority >= spoofPrority && isRotationValid(polledRot.yaw, polledRot.pitch);
-                if (didPushQueued)
-                {
-                    event.setYaw(polledRot.yaw);
-                    event.setPitch(polledRot.pitch);
-                }
+                event.setYaw(polledRot.yaw);
+                event.setPitch(polledRot.pitch);
             }
         } else
         {
@@ -77,6 +66,21 @@ public final class RotationManager implements IManager
             setInvalid(spoofedAngles);
         }
         setRenderAngles();
+    };
+
+    @Subscribe
+    private final EventListener<EventMoveUpdate.Post> postEventListener = event ->
+    {
+        if (didPushQueued && polledRot != null)
+        {
+            didPushQueued = false;
+            // if the C03 was sent and our server angles actually reflect these requested angles
+            if (polledRot.yaw == serverAngles[0] && polledRot.pitch == serverAngles[1])
+            {
+                polledRot.invoke();
+                polledRot = null;
+            }
+        }
     };
 
     @Subscribe

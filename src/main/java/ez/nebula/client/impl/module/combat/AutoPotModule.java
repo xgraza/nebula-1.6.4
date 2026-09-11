@@ -13,35 +13,34 @@ import ez.nebula.client.api.manager.module.type.InteractionModule;
 import ez.nebula.client.api.manager.module.type.RotationPriority;
 import ez.nebula.client.api.setting.NumberSetting;
 import ez.nebula.client.api.setting.Setting;
+import ez.nebula.client.impl.module.ModuleRotationPriorities;
 import ez.nebula.client.impl.module.player.AutoEatModule;
 import ez.nebula.client.util.math.Timer;
 import ez.nebula.client.util.minecraft.player.InventoryUtil;
+import ez.nebula.client.util.minecraft.player.MoveUtil;
 import ez.nebula.client.util.minecraft.player.PlayerUtil;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.S1DPacketEntityEffect;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.src.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.MathHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author xgraza
- * @since 03/22/25
+ * @since 9/10/26
  */
-@ModuleManifest(name = "AutoPot",
-        description = "Automatically throws down splash potions",
-        category = ModuleCategory.COMBAT)
-@RotationPriority(90)
+@ModuleManifest(name = "AutoPot2", description = "Autopot rewrite", category = ModuleCategory.COMBAT)
+@RotationPriority(ModuleRotationPriorities.AUTO_POT)
 public final class AutoPotModule extends InteractionModule
 {
     @ModuleInstance
     public static AutoPotModule INSTANCE;
 
+    private static final int MAX_DURATION_TICKS_NEVER_RUNOUT = 200; // 10 seconds
     private static final List<Integer> ALLOWED_POTION_EFFECTS = Lists.newArrayList(
             Potion.heal.getId(),
             Potion.moveSpeed.getId(),
@@ -64,10 +63,7 @@ public final class AutoPotModule extends InteractionModule
             .setMin(1.0f)
             .setMax(19.5f)
             .setScale(0.5f)
-            .setDescription("At what health should you automatically be logged off")
-            .build();
-    private final Setting<Boolean> raytraceCheckSetting = builder("Raytrace Check", true)
-            .setDescription("If to check that the potion thrown will actually hit the ground to give the effect")
+            .setDescription("At what health should instant healing potions be thrown")
             .build();
     private final Setting<Boolean> ignoreIllegalSetting = builder("Ignore Illegals", true)
             .setDescription("If to ignore illegal throw potions (i.e. over max level, over max duration)")
@@ -79,31 +75,30 @@ public final class AutoPotModule extends InteractionModule
             .setDescription("If to prioritize attacking (i.e. KillAura, AutoBed) over throwing potions")
             .build();
 
+    private final Timer timer = new Timer();
     private final List<Integer> expectedPotionEffects = new ArrayList<>();
-    private final Timer potTimer = new Timer();
+    private int thrownPot;
     private boolean thrown;
-    private int lastPotionSlot = InventoryUtil.INVALID_SLOT;
 
     @Override
     public void onDisable()
     {
         super.onDisable();
-        lastPotionSlot = InventoryUtil.INVALID_SLOT;
-        thrown = false;
         expectedPotionEffects.clear();
+        thrownPot = InventoryUtil.INVALID_SLOT;
+        thrown = false;
     }
 
     @Subscribe
     private final EventListener<EventUpdate> updateEventListener = event ->
     {
-        if (thrown)
+        if (thrownPot != InventoryUtil.INVALID_SLOT)
         {
-            final long time = (long) (delaySetting.getValue() + Nebula.SERVER.scaledLatency());
-            if (potTimer.hasElapsed(time))
+            if (thrown && timer.hasElapsed((long) (delaySetting.getValue() + Nebula.SERVER.scaledLatency())))
             {
                 thrown = false;
+                thrownPot = InventoryUtil.INVALID_SLOT;
                 expectedPotionEffects.clear();
-                lastPotionSlot = InventoryUtil.INVALID_SLOT;
             }
             return;
         }
@@ -130,87 +125,42 @@ public final class AutoPotModule extends InteractionModule
                 // allow us to finish the action we're doing
                 || MC.thePlayer.getItemInUse() != null)
         {
-            lastPotionSlot = InventoryUtil.INVALID_SLOT;
+            thrownPot = InventoryUtil.INVALID_SLOT;
             return;
         }
 
-        if (isLowHealth() || lastPotionSlot == InventoryUtil.INVALID_SLOT)
+        thrownPot = getPotionSlot();
+        if (thrownPot == InventoryUtil.INVALID_SLOT)
         {
-            lastPotionSlot = getPotionSlot();
-            if (lastPotionSlot == InventoryUtil.INVALID_SLOT)
-            {
-                return;
-            }
-        }
-
-        final float[] angles = getRotationAngles();
-        if (angles == null)
-        {
+            thrown = false;
             return;
         }
 
-        if (!canRotate())
+        if (!thrown)
         {
-            lastPotionSlot = InventoryUtil.INVALID_SLOT;
-            return;
-        }
-
-        queue(angles, (rotation) ->
-        {
-            if (lastPotionSlot == InventoryUtil.INVALID_SLOT || thrown)
-            {
-                return;
-            }
             thrown = true;
-            use(lastPotionSlot);
-            potTimer.resetTime();
-        });
+            timer.resetTime();
+            queue(calculatePotAngles(), (rotation) -> use(thrownPot));
+        }
     };
 
     @Subscribe
     private final EventListener<EventPacket.Inbound> inboundEventListener = event ->
     {
+        if (MC.thePlayer == null || MC.theWorld == null)
+        {
+            return;
+        }
         if (event.getPacket() instanceof S1DPacketEntityEffect && thrown && !expectedPotionEffects.isEmpty())
         {
             final S1DPacketEntityEffect packet = event.getPacket();
-            if (expectedPotionEffects.contains((int) packet.getPotionId()))
+            if (packet.getEntityId() == MC.thePlayer.getEntityId() && expectedPotionEffects.contains((int) packet.getPotionId()))
             {
-                // confirmed, reset variables
                 thrown = false;
-                expectedPotionEffects.clear();
-                lastPotionSlot = InventoryUtil.INVALID_SLOT;
+                thrownPot = InventoryUtil.INVALID_SLOT;
             }
         }
     };
-
-    private float[] getRotationAngles()
-    {
-        final BlockPos origin = PlayerUtil.getOrigin();
-        Vec3 predictedVector = Vec3.createVectorHelper(
-                origin.getX() + 0.5,
-                origin.getY() - 1.5,
-                origin.getZ() + 0.5).addVector(
-                MC.thePlayer.motionX * 8,
-                MC.thePlayer.motionY * 2.5,
-                MC.thePlayer.motionZ * 8);
-        double distance = 1.0 / (MC.thePlayer.getDistanceSq(
-                predictedVector.xCoord,
-                predictedVector.yCoord,
-                predictedVector.zCoord));
-
-        final float[] angles = new float[]{ MC.thePlayer.rotationYaw, (float) ((1 - distance) * 90.0f) };
-
-        if (!raytraceCheckSetting.getValue())
-        {
-            return angles;
-        }
-
-        // alfheim giant strength pot incident...
-        final MovingObjectPosition result = MC.thePlayer.rayTrace(
-                Nebula.ROTATIONS.getLook(angles[0], angles[1]),
-                4.5, 1.0f);
-        return (result == null || result.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) ? null : angles;
-    }
 
     private int getPotionSlot()
     {
@@ -301,7 +251,7 @@ public final class AutoPotModule extends InteractionModule
         if (neverRunOutSetting.getValue())
         {
             final PotionEffect effect = MC.thePlayer.getActivePotionEffect(id);
-            return effect != null && effect.getDuration() >= 200;
+            return effect != null && effect.getDuration() >= MAX_DURATION_TICKS_NEVER_RUNOUT;
         }
         return true;
     }
@@ -324,9 +274,34 @@ public final class AutoPotModule extends InteractionModule
         return effect.getAmplifier() > 1;
     }
 
+    private float[] calculatePotAngles()
+    {
+        final float[] angles = new float[2];
+        angles[0] = MC.thePlayer.rotationYaw;
+        angles[1] = 90.0f;
+
+        final double speed = MoveUtil.getPlayerSpeed();
+        if (speed > 1.0E-4)
+        {
+            angles[0] = (float) Math.toDegrees(Math.atan2(-MC.thePlayer.motionX, MC.thePlayer.motionZ));
+            angles[1] -= (float) (speed * 250);
+        } else
+        {
+            angles[1] = -90.0f;
+        }
+
+        if (Math.abs(MC.thePlayer.motionY) > 1.0E-4)
+        {
+            angles[1] += (float) (MC.thePlayer.motionY * 20.0);
+        }
+
+        angles[1] = MathHelper.clamp_float(angles[1], -90.0f, 90.0f);
+        return angles;
+    }
+
     @Override
     public boolean isActive()
     {
-        return super.isActive() && (thrown || lastPotionSlot != -1);
+        return super.isActive() && (thrown || thrownPot != InventoryUtil.INVALID_SLOT);
     }
 }
