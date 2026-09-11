@@ -2,6 +2,7 @@ package ez.nebula.client.impl.module.combat;
 
 import ez.nebula.client.Nebula;
 import ez.nebula.client.api.listener.EventListener;
+import ez.nebula.client.api.listener.IEventPriorities;
 import ez.nebula.client.api.listener.Subscribe;
 import ez.nebula.client.api.listener.event.game.EventPostUpdate;
 import ez.nebula.client.api.listener.event.game.EventUpdate;
@@ -253,11 +254,12 @@ public final class KillAuraModule extends InteractionModule
         MC.mcProfiler.endSection();
     };
 
-    @Subscribe
+    @Subscribe(priority = IEventPriorities.HIGHEST)
     private final EventListener<EventAttackSprint> attackSprintEventListener = event ->
     {
-        if (keepSprint.getValue())
+        if (keepSprint.getValue() && event.getEntity().equals(target))
         {
+            event.setSlowdown(false);
             event.cancel();
         }
     };

@@ -1301,11 +1301,17 @@ public abstract class EntityPlayer extends EntityLivingBase implements ICommandS
                         {
                             par1Entity.addVelocity(-MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F) * (float) var3 * 0.5F, 0.1D, MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F) * (float) var3 * 0.5F);
 
-                            if (!EventBus.dispatch(new EventAttackSprint(par1Entity)))
+                            final EventAttackSprint event = new EventAttackSprint(par1Entity);
+
+                            if (!EventBus.dispatch(event))
+                            {
+                                this.setSprinting(false);
+                            }
+
+                            if (event.isSlowdown())
                             {
                                 this.motionX *= 0.6D;
                                 this.motionZ *= 0.6D;
-                                this.setSprinting(false);
                             }
                         }
 
